@@ -1,0 +1,27 @@
+CREATE SEQUENCE users_id_seq INCREMENT BY 1 MINVALUE 0 START WITH 0;
+CREATE TABLE IF NOT EXISTS users (
+  id INTEGER UNIQUE NOT NULL DEFAULT nextval('users_id_seq'),
+  login VARCHAR(32) UNIQUE NOT NULL,
+  name VARCHAR(128) UNIQUE NOT NULL,
+  key VARCHAR(64) NOT NULL
+);
+CREATE INDEX ON users (id);
+CREATE INDEX ON users (login);
+
+INSERT INTO users (id, login, name, key) VALUES (0, 'drew', 'Drew', 'ocOy5IrjK9LGHQrYw6d8pWpS6j86qh08sDIlhNb2HcQ=');
+
+CREATE SEQUENCE articles_id_seq INCREMENT BY 1 MINVALUE 0 START WITH 0;
+CREATE TABLE IF NOT EXISTS articles (
+  id INTEGER NOT NULL DEFAULT nextval('articles_id_seq'),
+  author INTEGER NOT NULL REFERENCES users(id),
+  title VARCHAR(256) UNIQUE NOT NULL,
+  posted TIMESTAMP WITH TIME ZONE DEFAULT now(),
+  content TEXT
+);
+CREATE INDEX ON articles(id);
+CREATE INDEX ON articles(title);
+
+INSERT INTO ARTICLES (author, title, content) VALUES (
+  0,
+  'First post!',
+  '<p>This is the first post.  We''re just trying some stuff out.</p>');
