@@ -32,7 +32,9 @@ COPY init.psql /tmp/init.psql
 #       allows the RUN command to span multiple lines.
 RUN    /etc/init.d/postgresql start &&\
     psql --command "CREATE USER blog WITH SUPERUSER PASSWORD 'bloggie';" &&\
-    createdb -O blog blog && psql -d blog < /tmp/init.psql && rm /tmp/init.psql
+    createdb -O blog blog && psql -d blog < /tmp/init.psql 
+# removing this for permissions error when building on Jenkins.  Layering issue?
+# && rm /tmp/init.psql
 
 # Adjust PostgreSQL configuration so that remote connections to the
 # database are possible.
